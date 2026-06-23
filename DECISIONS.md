@@ -14,3 +14,12 @@ Zeebe is the production-grade path. Irrelevant for a demo. Spring Boot 3.5 (not
 **Why:** the standard for Spring Boot and container deployment (OpenShift/Docker,
 as mentioned in the role). A WAR targets an external application server, which we
 do not need here.
+
+## [2026-06-23] #3 Camunda webapps + in-memory H2
+**Goal:** make the running process visible and keep persistence setup-free.
+**Decision:** use the Camunda 7 *webapp* starter (Cockpit/Tasklist/Admin) on an
+in-memory H2 database.
+**Why:** Cockpit gives a visual view of deployed processes and live instances —
+valuable for demoing and debugging. H2 in-memory means zero external setup and a
+clean state on every restart. Trade-off: state is not persisted across restarts;
+production would use PostgreSQL.
