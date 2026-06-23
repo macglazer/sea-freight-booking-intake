@@ -23,3 +23,21 @@ in-memory H2 database.
 valuable for demoing and debugging. H2 in-memory means zero external setup and a
 clean state on every restart. Trade-off: state is not persisted across restarts;
 production would use PostgreSQL.
+
+## [2026-06-23] #4 Process modeling in BPMN 2.0 (Camunda 7) + auto-deploy from resources
+**Goal:** model the booking workflow visually and have it deployed automatically.
+**Decision:** author the process as a `.bpmn` (BPMN 2.0) file in Camunda Modeler,
+targeting Camunda 7, and place it under `src/main/resources` so the Spring Boot
+starter auto-deploys it on startup.
+**Why:** BPMN 2.0 is the open standard the role calls for; keeping the diagram in
+`resources` means the running app and the process model are always in sync, with
+no manual deployment step.
+
+## [2026-06-23] #5 BPMN deployment fixes: history TTL + service task placeholder
+**Goal:** get the process to deploy cleanly on Camunda 7.
+**Decision:** set `historyTimeToLive=180` on the process and a temporary
+`expression=${true}` on the Service Task.
+**Why:** Camunda 7.x enforces a non-null history TTL (for History Cleanup), and
+every service task must declare an implementation (class/delegateExpression/
+expression). The `${true}` is a deliberate placeholder; it will be replaced with
+a real Java delegate that performs the extraction logic.
