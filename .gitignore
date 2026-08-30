@@ -31,3 +31,14 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Maven build output
+target/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Local env (API keys never go to git)
+.env
